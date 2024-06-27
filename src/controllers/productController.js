@@ -5,6 +5,7 @@ import {
   updateOne, 
   deleteOne 
 } from '../services/productService.js';
+import { validateProduct } from '../utils/schemas/product.js';
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -55,6 +56,16 @@ export const getAllProducts = async (req, res) => {
 export const createOneProduct = async (req, res) => {
   try {
     const dataProduct = req.body;
+
+    //Validate data with schema
+    const dataProductValidation = validateProduct( dataProduct );
+    if(dataProductValidation.error) return res.status(400).json({
+      succes: false,
+      status: 400,
+      message: "Invalid data",
+      error: JSON.parse(dataProductValidation.error.message)
+    });
+
     const createdProduct = await createOne( dataProduct );
     res.status(201).json({
       succes: true,
@@ -84,6 +95,14 @@ export const updateOneProduct = async (req, res) => {
         message: "Product not found",
       });
     };
+
+    const dataProductValidation = validateProduct( dataProduct );
+    if(dataProductValidation.error) return res.status(400).json({
+      succes: false,
+      status: 400,
+      message: "Invalid data",
+      error: JSON.parse(dataProductValidation.error.message)
+    });
     
     const updatedProduct = await updateOne( id, dataProduct );
     res.status(200).json({

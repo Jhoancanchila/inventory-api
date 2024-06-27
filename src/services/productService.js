@@ -20,7 +20,7 @@ export const createOne = async( data ) => {
     lot_number: data.lot_number,
     product_name: data.product_name,
     price: data.price,
-    available_quantity: data.available_quantity,
+    available_quantity: data.available_quantity
   });
   return createdProduct;
 };
