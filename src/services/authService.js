@@ -1,11 +1,14 @@
 import { User } from "../db/models/user.js";
 
-export const getUser = async ( email ) => {
+export const getUser = async ( key ) => {
   await User.sync();
   const user = await User.findOne({
-    where: {
-      email: email,
-    },
+    
+    where: typeof key === 'number' ? {
+      id: key
+    } : {
+      email: key
+    }
   });
   return user;
 };

@@ -1,6 +1,7 @@
 import { createPurchase, getPurchase, getPurchases, updatePurchase } from '../services/purchaseService.js';
 import { createPurchaseProduct } from '../services/purchaseProductService.js';
 import { getOne } from '../services/productService.js';
+import { getUser } from '../services/authService.js';
 
 export const getAllPurchases = async( req, res ) => {
   try {
@@ -31,6 +32,10 @@ export const createOnePurchase = async( req, res ) => {
   const { clientId, products } = req.body;
 
   try {
+    const user = await getUser(clientId);
+    if (user.role !== 'client') {
+      return res.status(404).json({ message: `Access denied: You do not have the appropriate role.` });
+    }
     // crear compra
     const purchase = await createPurchase({ clientId });
 
