@@ -1,14 +1,15 @@
 import { Purchase } from "../db/models/purchase.js";
 import { Product } from "../db/models/product.js";
 
-export const getPurchases = async() => {
+export const getPurchases = async( clientId ) => {
   const allPurchases = await Purchase.findAll({
     include: {
       model: Product,
       through: {
           attributes: ['quantity']
       }
-  }
+    },
+    where: clientId ? { clientId } : {}
   });
   return allPurchases;
 };
