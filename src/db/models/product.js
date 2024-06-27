@@ -1,5 +1,4 @@
-import { sequelize } from "../connect.js";
-import { Model, DataTypes } from "sequelize";
+import { sequelize, Model, DataTypes } from "../connect.js";
 
 export class Product extends Model {}
 

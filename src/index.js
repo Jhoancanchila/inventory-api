@@ -4,6 +4,7 @@ import config from './config/config.js';
 
 //routes
 import productRouter from './v1/routes/product.js';
+import purchaseRouter from './v1/routes/purchase.js';
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,7 @@ app.disable('x-powered-by'); //deshabilitar header x-powered-by
 const PORT = config.port;
 
 productRouter(app);
+purchaseRouter(app);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

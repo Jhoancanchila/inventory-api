@@ -14,6 +14,12 @@ export const sequelize = new Sequelize(nameDB, userDB,passwordDB, {
   port: portDB,
 });
 
+export {
+  Model,
+  DataTypes
+};
+
+
 /* async function connect() {
   try {
     await sequelize.authenticate();
