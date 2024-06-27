@@ -1,4 +1,4 @@
-import passport from "passport";
+import passport from "../auth/strategies/local.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { getUser, createUser } from "../services/authService.js";
@@ -29,11 +29,15 @@ export const validateUser = async (req, res, next) => {
       if (error) return next(error);
       if (!user) return res.status(400).json({ message: info.message });
 
-      const token = jwt.sign({ id: user.id, rol: user.role }, config.authJwtSecret, { expiresIn: '1h' });
-      res.status(200).json({ token });
+      const token = jwt.sign({ id: user.id, role: user.role }, config.authJwtSecret, { expiresIn: '1h' });
+
+      //Se elimina la contraseña del objeto user
+      const userWithoutPassword = { ...user.toJSON() };
+      delete userWithoutPassword.password;
+      res.status(200).json({ user: userWithoutPassword, token });
   })(req, res, next);
     
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });   
   }
-}
+};
