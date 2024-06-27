@@ -1,5 +1,7 @@
 import { sequelize, Model, DataTypes } from "../connect.js";
 
+import { User } from "./user.js";
+
 export class Purchase extends Model {}
 
 Purchase.init({
@@ -7,6 +9,14 @@ Purchase.init({
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
+  },
+  clientId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
   },
   date_created: {
       type: DataTypes.DATE,
@@ -22,3 +32,8 @@ Purchase.init({
   sequelize,
   modelName: "Purchase",
 });
+
+User.hasMany(Purchase, { foreignKey: 'clientId' });
+Purchase.belongsTo(User, { foreignKey: 'clientId' });
+
+

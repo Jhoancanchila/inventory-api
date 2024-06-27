@@ -12,13 +12,27 @@ export const getAllPurchases = async( req, res ) => {
     return res.status(500).json({ message: 'error get all purchases' });
   }
 };
+
+export const getPurchasesByClient = async( req, res ) => {
+  const { clientId } = req.params;
+
+  try {
+    const purchases = await getPurchases(clientId);
+
+    return res.status(200).json(purchases);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'error get purchases by client' });
+  }
+};
+
 export const createOnePurchase = async( req, res ) => {
   //products from client
-  const { products } = req.body;
+  const { clientId, products } = req.body;
 
   try {
     // crear compra
-    const purchase = await createPurchase({});
+    const purchase = await createPurchase({ clientId });
 
     let total = 0;
 
