@@ -1,10 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import passport from 'passport';
 import config from './config/config.js';
 
 //routes
 import productRouter from './v1/routes/product.js';
 import purchaseRouter from './v1/routes/purchase.js';
+import authRouter from './v1/routes/auth.js';
 
 const app = express();
 app.use(cors());
@@ -15,6 +17,9 @@ const PORT = config.port;
 
 productRouter(app);
 purchaseRouter(app);
+authRouter(app);
+
+app.use(passport.initialize());
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
