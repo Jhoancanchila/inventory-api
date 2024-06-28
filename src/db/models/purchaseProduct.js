@@ -20,5 +20,5 @@ PurchaseProduct.init({
 });
 
 //relaciones
-Product.belongsToMany(Purchase, { through: PurchaseProduct });
-Purchase.belongsToMany(Product, { through: PurchaseProduct });
+Product.belongsToMany(Purchase, { through: PurchaseProduct});
+Purchase.belongsToMany(Product, { through: PurchaseProduct, as: 'products'});
