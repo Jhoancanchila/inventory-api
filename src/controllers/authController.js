@@ -3,10 +3,18 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { getUser, createUser } from "../services/authService.js";
 import config from "../config/config.js";
+import { validateRegister } from "../utils/schemas/auth.js";
 
 export const createOneUser = async (req, res) => {
   const { name, email, password, role } = req.body;
-  try {   
+  try {
+    const dataRegisterValidate = validateRegister({ name, email, password, role });
+    if(dataRegisterValidate.error) return res.status(400).json({
+      succes: false,
+      status: 400,
+      message: "Invalid data",
+      error: JSON.parse(dataRegisterValidate.error.message)
+    });
     const userExisted = await getUser(email);
     if(userExisted) {
       return res.status(400).json({ message: "User already existed" });
