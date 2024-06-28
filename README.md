@@ -1,4 +1,4 @@
-# API inventory-api
+# inventory-api
 ## Prerrequisitos
 
 1. Git
