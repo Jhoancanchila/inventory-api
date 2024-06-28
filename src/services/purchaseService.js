@@ -6,6 +6,7 @@ export const getPurchases = async( clientId ) => {
   const allPurchases = await Purchase.findAll({
     include: {
       model: Product,
+      as: 'products',
       through: {
           attributes: ['quantity']
       }
