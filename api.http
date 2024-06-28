@@ -1,0 +1,79 @@
+###REGISTER USER
+POST  http://localhost:8080/api/v1/register
+content-type: application/json
+
+{
+"name": "Ana Combita",
+"email": "hellen@gmail.com",
+"password": "123456",
+"role": "client"
+}
+
+###LOGIN USER
+POST  http://localhost:8080/api/v1/login
+content-type: application/json
+
+{
+"email": "josefina@gmail.com",
+"password": "123456"
+}
+
+### GET ALL PRODUCTS
+GET http://localhost:8080/api/v1/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NTgwNDg2LCJleHAiOjE3MTk1ODQwODZ9.IItTIRk1Gcdbe07bCVC2QT3Nzf_ePEtpPK0ESRJT1eg
+
+### GET ONE PRODUCT
+GET http://localhost:8080/api/v1/products/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NTgwNDg2LCJleHAiOjE3MTk1ODQwODZ9.IItTIRk1Gcdbe07bCVC2QT3Nzf_ePEtpPK0ESRJT1eg
+
+###CREATE PRODUCT
+POST  http://localhost:8080/api/v1/products
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NTgwNDg2LCJleHAiOjE3MTk1ODQwODZ9.IItTIRk1Gcdbe07bCVC2QT3Nzf_ePEtpPK0ESRJT1eg
+
+{
+"lot_number": 676,
+"product_name": "MANZANAS",
+"price": 500,
+"available_quantity": 10
+}
+
+###UPDATE PRODUCT
+PUT  http://localhost:8080/api/v1/products/2
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NTgwNDg2LCJleHAiOjE3MTk1ODQwODZ9.IItTIRk1Gcdbe07bCVC2QT3Nzf_ePEtpPK0ESRJT1eg
+
+{
+"lot_number": 676,
+"product_name": "MANZANAS",
+"price": 500,
+"available_quantity": 10
+}
+###DELETE PRODUCT
+DELETE  http://localhost:8080/api/v1/products/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NTgwNDg2LCJleHAiOjE3MTk1ODQwODZ9.IItTIRk1Gcdbe07bCVC2QT3Nzf_ePEtpPK0ESRJT1eg
+
+###GET PURCHASES (ADMIN)
+GET  http://localhost:8080/api/v1/purchases
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NTg0NDY4LCJleHAiOjE3MTk1ODgwNjh9.-wYBVB3NY7wPfshyVo7BiQsQSLw3rvBgSDgm7qCyIL0
+
+###GET PURCHASE BY CLIENTID (CLIENT)
+GET  http://localhost:8080/api/v1/3/purchases
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImNsaWVudCIsImlhdCI6MTcxOTU4NDk5NywiZXhwIjoxNzE5NTg4NTk3fQ.dAQD5zLLw3SFGmn2CQmovkVeYi9-FLDCJq_94lQxQrc
+
+###GET PURCHASE BY ID (CLIENT)
+GET  http://localhost:8080/api/v1/purchases/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImNsaWVudCIsImlhdCI6MTcxOTU4NDk5NywiZXhwIjoxNzE5NTg4NTk3fQ.dAQD5zLLw3SFGmn2CQmovkVeYi9-FLDCJq_94lQxQrc
+
+###CREATE PURCHASE (CLIENT)
+POST  http://localhost:8080/api/v1/purchases
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImNsaWVudCIsImlhdCI6MTcxOTU4NDk5NywiZXhwIjoxNzE5NTg4NTk3fQ.dAQD5zLLw3SFGmn2CQmovkVeYi9-FLDCJq_94lQxQrc
+
+{
+  "clientId": 3,
+  "products": [
+      { "productId": 1, "quantity": 2 },
+      { "productId": 3, "quantity": 2 }
+  ]
+}
