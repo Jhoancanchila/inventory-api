@@ -14,6 +14,18 @@ export const getAllPurchases = async( req, res ) => {
   }
 };
 
+export const getPurchasesById = async( req, res ) => {
+  const { id } = req.params;
+
+  try {
+    const purchase = await getPurchase(id);
+
+    return res.status(200).json(purchase);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'error get purchase' });
+  }
+};
 export const getPurchasesByClient = async( req, res ) => {
   const { clientId } = req.params;
 

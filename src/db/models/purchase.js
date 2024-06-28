@@ -34,6 +34,6 @@ Purchase.init({
 });
 
 User.hasMany(Purchase, { foreignKey: 'clientId' });
-Purchase.belongsTo(User, { foreignKey: 'clientId' });
+Purchase.belongsTo(User, { foreignKey: 'clientId',as: 'client'});
 
 

@@ -1,5 +1,6 @@
 import { Purchase } from "../db/models/purchase.js";
 import { Product } from "../db/models/product.js";
+import { User } from "../db/models/user.js";
 
 export const getPurchases = async( clientId ) => {
   const allPurchases = await Purchase.findAll({
@@ -25,14 +26,25 @@ export const getPurchase = async( id ) => {
     where: {
       id
     },
-    include: {
-      model: Product,
-      through: {
-          attributes: ['quantity']
+    include: [
+      {
+          model: User,
+          attributes: ['id', 'name', 'email'],
+          as: 'client'
+      },
+      {
+          model: Product,
+          as: 'products',
+          through: {
+            attributes: ['quantity'],
+          }
       }
-  }
+  ]
   });
-  return purchase;
+  // Remover la propiedad clientId
+  const newPurchases = purchase.toJSON();
+  delete newPurchases.clientId; 
+  return newPurchases;
 };
 
 export const updatePurchase = async( data ) => {
