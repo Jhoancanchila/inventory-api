@@ -6,7 +6,7 @@ const registerSchema = z.object({
   ),
   password: z.string().min(6),
   name: z.string(),
-  role: z.enum(['admin', 'client'])
+  role: z.enum(['admin', 'client']).default('admin')
 });
 
 export const validateRegister = (user) => {
