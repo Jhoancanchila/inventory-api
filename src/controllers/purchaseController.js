@@ -72,7 +72,7 @@ export const createOnePurchase = async( req, res ) => {
 
   try {
     const user = await getUser(clientId);
-    if (user.role !== 'client') {
+    if (!user || user.role !== 'client') {
       return res.status(404).json({ 
         status: false,
         statusCode: 404,
