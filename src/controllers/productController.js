@@ -10,6 +10,12 @@ import { validateProduct } from '../utils/schemas/product.js';
 export const getAllProducts = async (req, res) => {
   try {
     const allProducts = await getAll();
+    if(!allProducts) return res.status(404).json({
+      status: false,
+      statusCode: 404,
+      message: "Products not found",
+    });
+
     res.status(200).json({
       status: true,
       statusCode: 200,
@@ -67,6 +73,13 @@ export const createOneProduct = async (req, res) => {
     });
 
     const createdProduct = await createOne( dataProduct );
+
+    if(!createdProduct) return res.status(500).json({
+      status: false,
+      statusCode: 500,
+      message: "Error creating product"
+    });
+    
     res.status(201).json({
       status: true,
       statusCode: 201,

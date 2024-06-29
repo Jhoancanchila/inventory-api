@@ -1,13 +1,14 @@
 import { User } from "../db/models/user.js";
 
-export const getUser = async ( key ) => {
+export const getUser = async ( param ) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   await User.sync();
   const user = await User.findOne({
     
-    where: typeof key === 'number' ? {
-      id: key
+    where: !emailRegex.test( param ) ? {
+      id: param
     } : {
-      email: key
+      email: param
     }
   });
   return user;
