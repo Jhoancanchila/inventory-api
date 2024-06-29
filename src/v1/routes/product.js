@@ -2,6 +2,7 @@ import express from 'express';
 import { createOneProduct, getAllProducts, getOneProduct, updateOneProduct, deleteOneProduct } from '../../controllers/productController.js';
 import { authenticateToken } from '../../auth/middleware/auth.js';
 import { authorizeRole } from '../../auth/middleware/authorize.js';
+import { validateIdParams } from '../../auth/middleware/validateIdParams.js';
 
 export default function productRouter(app) {
   const router = express.Router();
@@ -114,7 +115,7 @@ export default function productRouter(app) {
       *      "message": "Error getting all products"
       *    }
     */
-    .get('/products/:id', authenticateToken, authorizeRole('admin'), ( req, res ) => getOneProduct( req, res ))
+    .get('/products/:id', validateIdParams, authenticateToken, authorizeRole('admin'), ( req, res ) => getOneProduct( req, res ))
     
     /**
         * @api {post} /products create a new product
@@ -235,7 +236,7 @@ export default function productRouter(app) {
        *    }
       */
 
-    .put('/products/:id', authenticateToken, authorizeRole('admin'), ( req, res ) => updateOneProduct( req, res )) 
+    .put('/products/:id', validateIdParams, authenticateToken, authorizeRole('admin'), ( req, res ) => updateOneProduct( req, res )) 
     
     /**
        * @api {delete} /products/:id delete a product
@@ -274,7 +275,7 @@ export default function productRouter(app) {
        *   }
       */
 
-    .delete('/products/:id', authenticateToken, authorizeRole('admin'), ( req, res ) => deleteOneProduct( req, res ));  
+    .delete('/products/:id', validateIdParams, authenticateToken, authorizeRole('admin'), ( req, res ) => deleteOneProduct( req, res ));  
 
   return router;
 };

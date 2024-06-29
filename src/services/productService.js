@@ -22,7 +22,7 @@ export const createOne = async( data ) => {
     price: data.price,
     available_quantity: data.available_quantity
   });
-  return createdProduct;
+  return createdProduct;    
 };
 
 export const updateOne = async( id, data ) => {
@@ -36,7 +36,7 @@ export const updateOne = async( id, data ) => {
       id: id
     }
   });
-  return product;
+  return product;    
 };
 
 export const deleteOne = async( id ) => {  

@@ -2,6 +2,7 @@ import express from 'express';
 import { createOnePurchase, getAllPurchases, getPurchasesByClient, getPurchasesById } from '../../controllers/purchaseController.js';
 import { authenticateToken } from '../../auth/middleware/auth.js';
 import { authorizeRole } from '../../auth/middleware/authorize.js';
+import { validateIdParams } from '../../auth/middleware/validateIdParams.js';
 
 export default function purchaseRouter(app) {
   const router = express.Router();
@@ -44,7 +45,7 @@ export default function purchaseRouter(app) {
        *
        * @apiError (500) InternalServerError Error getting purchases.
     */
-    .get('/:clientId/purchases',  authenticateToken, authorizeRole('client'), ( req, res ) => getPurchasesByClient( req, res))
+    .get('/purchases/client/:id', validateIdParams, authenticateToken, authorizeRole('client'), ( req, res ) => getPurchasesByClient( req, res))
 
     /**
        * @api {get} /purchases/:id Get purchase by ID
@@ -66,7 +67,7 @@ export default function purchaseRouter(app) {
        * @apiError (500) InternalServerError Error getting purchase.
     */
 
-    .get('/purchases/:id',  authenticateToken, authorizeRole('client'), ( req, res ) => getPurchasesById( req, res))
+    .get('/purchases/:id', validateIdParams, authenticateToken, authorizeRole('client'), ( req, res ) => getPurchasesById( req, res))
 
     /**
        * @api {post} /purchases Create a new purchase

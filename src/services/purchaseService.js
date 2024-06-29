@@ -6,19 +6,20 @@ export const getPurchases = async( clientId ) => {
   const allPurchases = await Purchase.findAll({
     include: {
       model: Product,
+      as: 'products',
       through: {
           attributes: ['quantity']
       }
     },
     where: clientId ? { clientId } : {}
   });
-  return allPurchases;
+  return allPurchases;    
 };
 
 export const createPurchase = async( data ) => {
   await Purchase.sync();
   const createdPurchase = await Purchase.create(data);
-  return JSON.parse(JSON.stringify(createdPurchase));
+  return JSON.parse(JSON.stringify(createdPurchase));    
 };
 
 export const getPurchase = async( id ) => {
@@ -41,10 +42,14 @@ export const getPurchase = async( id ) => {
       }
   ]
   });
+
+  if(!purchase) throw new Error('Purchase not found');
+
   // Remover la propiedad clientId
   const newPurchases = purchase.toJSON();
   delete newPurchases.clientId; 
   return newPurchases;
+  
 };
 
 export const updatePurchase = async( data ) => {
@@ -52,6 +57,6 @@ export const updatePurchase = async( data ) => {
     where: {
       id: data.id
     }
-  });
+  });   
   return purchase;
 }

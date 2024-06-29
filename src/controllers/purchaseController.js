@@ -2,10 +2,17 @@ import { createPurchase, getPurchase, getPurchases, updatePurchase } from '../se
 import { createPurchaseProduct } from '../services/purchaseProductService.js';
 import { getOne } from '../services/productService.js';
 import { getUser } from '../services/authService.js';
+import { validatePurchase } from '../utils/schemas/purchase.js';
 
 export const getAllPurchases = async( req, res ) => {
   try {
     const purchases = await getPurchases();
+
+    if(!purchases) return res.status(500).json({ 
+      status: false,
+      statusCode: 500,
+      message: 'Purchases not found'
+    });
 
     return res.status(200).json({
       status: true,
@@ -29,6 +36,12 @@ export const getPurchasesById = async( req, res ) => {
   try {
     const purchase = await getPurchase(id);
 
+    if(!purchase) return res.status(404).json({ 
+      status: false,
+      statusCode: 404,
+      message: 'Purchase not found'
+    });
+
     return res.status(200).json({
       status: true,
       statusCode: 200,
@@ -45,10 +58,25 @@ export const getPurchasesById = async( req, res ) => {
   }
 };
 export const getPurchasesByClient = async( req, res ) => {
-  const { clientId } = req.params;
+  const clientId = req.params.id;
 
   try {
-    const purchases = await getPurchases(clientId);
+    // Verifica que el id del cliente sea el mismo que el id del usuario autenticado
+
+    if( req.user.id !== clientId ) {
+      return res.status(403).json({ 
+        status: false,
+        statusCode: 403,
+        message: 'Forbidden: client id does not match user authenticated id'
+      });
+    }
+    const purchases = await getPurchases( clientId );
+
+    if(!purchases) return res.status(404).json({ 
+      status: false,
+      statusCode: 404,
+      message: 'Purchases not found'
+    });
 
     return res.status(200).json({
       status: true,
@@ -66,21 +94,41 @@ export const getPurchasesByClient = async( req, res ) => {
   }
 };
 
-export const createOnePurchase = async( req, res ) => {
+export const createOnePurchase = async( req, res ) => { 
   //products from client
   const { clientId, products } = req.body;
 
   try {
-    const user = await getUser(clientId);
-    if (user.role !== 'client') {
-      return res.status(404).json({ 
+
+    // Verifica que el id del cliente sea el mismo que el id del usuario autenticado
+
+    if( req.user.id !== clientId ) {
+      return res.status(403).json({ 
         status: false,
-        statusCode: 404,
-        message: `Access denied: You do not have the appropriate role.`
+        statusCode: 403,
+        message: 'Forbidden: client id does not match user authenticated id'
       });
     }
+
+    //Validar datos con el esquema
+    const validateDataPurchase = validatePurchase({ clientId, products });
+    if (validateDataPurchase.error) {
+      return res.status(400).json({ 
+        status: false,
+        statusCode: 400,
+        message: 'Invalid data',
+        error: JSON.parse(validateDataPurchase.error.message)
+      });
+    }
+
     // crear compra
     const purchase = await createPurchase({ clientId });
+
+    if(!purchase) return res.status(500).json({ 
+      status: false,
+      statusCode: 500,
+      message: 'Error creating purchase'
+    });
 
     let total = 0;
 
