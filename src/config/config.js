@@ -8,4 +8,5 @@ export default {
   dbPort: process.env.DB_PORT,
   dbDialect: process.env.DB_DIALECT,
   port: process.env.PORT ?? 3000,
+  authJwtSecret: process.env.AUTH_JWT_SECRET
 };

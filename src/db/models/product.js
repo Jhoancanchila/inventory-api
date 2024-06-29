@@ -1,13 +1,12 @@
-import { sequelize } from "../connect.js";
-import { Model, DataTypes } from "sequelize";
+import { sequelize, Model, DataTypes } from "../connect.js";
 
 export class Product extends Model {}
 
 Product.init({
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    autoIncrement: true,
   },
   lot_number: {
     type: DataTypes.INTEGER,
