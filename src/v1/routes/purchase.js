@@ -22,8 +22,78 @@ export default function purchaseRouter(app) {
        * @apiSuccess {Number} statusCode HTTP status code.
        * @apiSuccess {String} message Descriptive message.
        * @apiSuccess {Object[]} data List of purchases.
-      
+       * @apiSuccessExample {json} Success-Response:
+       * {
+       *  "status": true,
+       *  "statusCode": 200,
+       *  "message": "Purchases found",
+       *  "data": [
+       *     {
+       *        "id": "40170d04-dba1-4d17-be0c-ad31c8a4d08e",
+       *        "clientId": "a37833b6-fcb4-4b27-989b-9629dbb4ca33",
+       *        "date_created": "2024-07-02T18:27:42.000Z",
+       *        "total": "600.00",
+       *        "createdAt": "2024-07-02T18:27:42.000Z",
+       *        "updatedAt": "2024-07-02T18:27:42.000Z",
+       *        "products": [
+       *        {
+       *           "id": "c117a006-c31a-49e4-b111-d23d21cea9b7",
+       *           "lot_number": 66666,
+       *           "product_name": "PERAS",
+       *           "price": "100.00",
+       *           "available_quantity": 10,
+       *           "date_entry": "2024-07-02T18:23:26.000Z",
+       *           "createdAt": "2024-07-02T18:23:26.000Z",
+       *           "updatedAt": "2024-07-02T18:23:26.000Z",
+       *           "PurchaseProduct": {
+       *              "quantity": 2
+       *           }
+       *        },
+       *        {
+       *           "id": "7ab9f9c1-855b-4b32-b109-a4c3d7ab5fa7",
+       *           "lot_number": 67996,
+       *           "product_name": "UVAS",
+       *           "price": "200.00",
+       *           "available_quantity": 5,
+       *           "date_entry": "2024-07-02T18:23:05.000Z",
+       *           "createdAt": "2024-07-02T18:23:05.000Z",
+       *           "updatedAt": "2024-07-02T18:23:05.000Z",
+       *           "PurchaseProduct": {
+       *              "quantity": 2
+       *           }
+       *        }
+       *        ]
+       *     }
+       *  ]
+       *  }
+       * @apiError (401) Unauthorized.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *   "status": false,
+       *   "statusCode": 401,
+       *   "message": "Unauthorized"
+       * }
+       * @apiError (403) forbidden.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 403,
+       *  "message": "Forbidden: client id does not match user authenticated id",
+       * }
+       * @apiError (404) PurchaseNotFound Purchase not found.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 404,
+       *  "message": "Purchases not found"
+       * }
        * @apiError (500) InternalServerError Error getting
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 500,
+       *  "message": "Error getting purchases"
+       * }
     */
     .get('/purchases', authenticateToken, authorizeRole('admin'), ( req, res ) => getAllPurchases( req, res ))
 
@@ -42,8 +112,78 @@ export default function purchaseRouter(app) {
        * @apiSuccess {Number} statusCode HTTP status code.
        * @apiSuccess {String} message Descriptive message.
        * @apiSuccess {Object[]} data List of purchases.
-       *
+       * @apiSuccessExample {json} Success-Response:
+       * {
+       *  "status": true,
+       *  "statusCode": 200,
+       *  "message": "Purchases found",
+       *  "data": [
+       *     {
+       *        "id": "40170d04-dba1-4d17-be0c-ad31c8a4d08e",
+       *        "clientId": "a37833b6-fcb4-4b27-989b-9629dbb4ca33",
+       *        "date_created": "2024-07-02T18:27:42.000Z",
+       *        "total": "600.00",
+       *        "createdAt": "2024-07-02T18:27:42.000Z",
+       *        "updatedAt": "2024-07-02T18:27:42.000Z",
+       *        "products": [
+       *        {
+       *           "id": "c117a006-c31a-49e4-b111-d23d21cea9b7",
+       *           "lot_number": 66666,
+       *           "product_name": "PERAS",
+       *           "price": "100.00",
+       *           "available_quantity": 10,
+       *           "date_entry": "2024-07-02T18:23:26.000Z",
+       *           "createdAt": "2024-07-02T18:23:26.000Z",
+       *           "updatedAt": "2024-07-02T18:23:26.000Z",
+       *           "PurchaseProduct": {
+       *              "quantity": 2
+       *           }
+       *        },
+       *        {
+       *           "id": "7ab9f9c1-855b-4b32-b109-a4c3d7ab5fa7",
+       *           "lot_number": 67996,
+       *           "product_name": "UVAS",
+       *           "price": "200.00",
+       *           "available_quantity": 5,
+       *           "date_entry": "2024-07-02T18:23:05.000Z",
+       *           "createdAt": "2024-07-02T18:23:05.000Z",
+       *           "updatedAt": "2024-07-02T18:23:05.000Z",
+       *           "PurchaseProduct": {
+       *              "quantity": 2
+       *           }
+       *        }
+       *        ]
+       *     }
+       *  ]
+       *  }
+       * @apierror (401) Unauthorized.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *   "status": false,
+       *   "statusCode": 401,
+       *   "message": "Unauthorized"
+       * }
+       * @apiError (403) forbidden.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 403,
+       *  "message": "Access denied: You do not have the appropriate role.",
+       * }
+       * @apiError (404) PurchaseNotFound Purchase not found.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 404,
+       *  "message": "Purchase not found"
+       * }
        * @apiError (500) InternalServerError Error getting purchases.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 500,
+       *  "message": "Error getting purchases"
+       * }
     */
     .get('/purchases/client/:id', validateIdParams, authenticateToken, authorizeRole('client'), ( req, res ) => getPurchasesByClient( req, res))
 
@@ -266,7 +406,7 @@ export default function purchaseRouter(app) {
        *     "statusCode": 401,
        *     "message": "Unauthorized"
        *   }
-       * @apiError (403) Access denied.
+       * @apiError (403) Forbidden.
        * @apiErrorExample {json} Error-Response:
        * {
        *  "status": false,
@@ -277,10 +417,10 @@ export default function purchaseRouter(app) {
        * @apiError (500) InternalServerError Error creating purchase.
        * @apiErrorExample {json} Error-Response:
        * {
-       *     "status": false,
-       *     "statusCode": 500,
-       *     "message": "Error creating purchase"
-       *   }
+       *  "status": false,
+       *  "statusCode": 500,
+       *  "message": "Error creating purchase"
+       * }
     */
     .post('/purchases', authenticateToken, authorizeRole('client'), ( req, res ) => createOnePurchase( req, res))
 

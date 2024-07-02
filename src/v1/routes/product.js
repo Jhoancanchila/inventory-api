@@ -22,49 +22,62 @@ export default function productRouter(app) {
       * @apiSuccess {String} message message descriptive.
       * @apiSuccess {Object[]} data list of products.
       * @apiSuccessExample {json} Success-Response:
-      *     {
-      *        "status": true,
-      *        "statusCode": 200,
-      *        "message": "All products",
-      *        "data": [
-      *          {
-      *            "id": 1,
-      *            "lot_number": 5555,
-      *            "product_name": "Papaya",
-      *            "price": "100.00",
-      *            "available_quantity": 20,
-      *            "date_entry": "2024-06-28T04:35:45.000Z",
-      *            "createdAt": "2024-06-28T04:35:45.000Z",
-      *            "updatedAt": "2024-06-28T04:35:45.000Z"
-      *          },
-      *          {
-      *            "id": 2,
-      *            "lot_number": 4812,
-      *            "product_name": "Ciruelas",
-      *            "price": "50.00",
-      *            "available_quantity": 10,
-      *            "date_entry": "2024-06-28T04:41:10.000Z",
-      *            "createdAt": "2024-06-28T04:41:10.000Z",
-      *            "updatedAt": "2024-06-28T04:41:10.000Z"
-      *          }
-      *        ]
-      *      }      
+      * {
+      *  "status": true,
+      *  "statusCode": 200,
+      *  "message": "All products",
+      *  "data": [
+      *    {
+      *      "id": 1,
+      *      "lot_number": 5555,
+      *      "product_name": "Papaya",
+      *      "price": "100.00",
+      *      "available_quantity": 20,
+      *      "date_entry": "2024-06-28T04:35:45.000Z",
+      *      "createdAt": "2024-06-28T04:35:45.000Z",
+      *      "updatedAt": "2024-06-28T04:35:45.000Z"
+      *    },
+      *    {
+      *      "id": 2,
+      *      "lot_number": 4812,
+      *      "product_name": "Ciruelas",
+      *      "price": "50.00",
+      *      "available_quantity": 10,
+      *      "date_entry": "2024-06-28T04:41:10.000Z",
+      *      "createdAt": "2024-06-28T04:41:10.000Z",
+      *      "updatedAt": "2024-06-28T04:41:10.000Z"
+      *    }
+      *  ]
+      * }      
       *
       * @apiError (Error 401) Unauthorized.
       * @apiErrorExample {json} Error-Response:
-      *     HTTP/1.1 401 Internal Server Error
-      *     {
-      *       "status": false,
-      *       "statusCode": 401,
-      *       "message": "Unauthorized",
-      *     }
+      * {
+      *  "status": false,
+      *  "statusCode": 401,
+      *  "message": "Unauthorized",
+      * }
+      * @apiError (Error 403) Forbidden.
+      * @apiErrorExample {json} Error-Response:
+      * {
+      *  "status": false,
+      *  "statusCode": 403,
+      *  "message": "Forbidden"
+      * }
+      * @apiError (Error 404) ProductNotFound product not found.
+      * @apiErrorExample {json} Error-Response:
+      * {
+      *  "status": false,
+      *  "statusCode": 404,
+      *  "message": "Product not found"
+      * }
       * @apiError (Error 500) Error getting all products.
       * @apiErrorExample {json} Error-Response:
-      *   {
-      *      "status": false,
-      *      "statusCode": 500,
-      *      "message": "Error getting all products"
-      *    }
+      * {
+      *  "status": false,
+      *  "statusCode": 500,
+      *  "message": "Error getting all products"
+      * }
     */
     .get('/products', authenticateToken, authorizeRole('admin'), ( req, res ) => getAllProducts( req, res ))
 
@@ -84,36 +97,49 @@ export default function productRouter(app) {
       * @apiSuccess {String} message message descriptive.
       * @apiSuccess {Object} data data of product.
       * @apiSuccessExample {json} Success-Response:
-      *   {
-      *      "status": true,
-      *      "statusCode": 200,
-      *      "message": "Product found",
-      *      "data": {
-      *        "id": 2,
-      *        "lot_number": 4812,
-      *        "product_name": "Ciruelas",
-      *        "price": "50.00",
-      *        "available_quantity": 10,
-      *        "date_entry": "2024-06-28T04:41:10.000Z",
-      *        "createdAt": "2024-06-28T04:41:10.000Z",
-      *        "updatedAt": "2024-06-28T04:41:10.000Z"
-      *      }
-      *    }
-      *
+      * {
+      *  "status": true,
+      *   "statusCode": 200,
+      *   "message": "Product found",
+      *   "data": {
+      *     "id": 2,
+      *     "lot_number": 4812,
+      *     "product_name": "Ciruelas",
+      *     "price": "50.00",
+      *     "available_quantity": 10,
+      *     "date_entry": "2024-06-28T04:41:10.000Z",
+      *     "createdAt": "2024-06-28T04:41:10.000Z",
+      *     "updatedAt": "2024-06-28T04:41:10.000Z"
+      *   }
+      * }
+      * @apiError (Error 401) Unauthorized.
+      * @apiErrorExample {json} Error-Response:
+      * {
+      *  "status": false,
+      *  "statusCode": 401,
+      *  "message": "Unauthorized"
+      * }
+      * @apiError (Error 403) Forbidden.
+      * @apiErrorExample {json} Error-Response:
+      * {
+      *  "status": false,
+      *  "statusCode": 403,
+      *  "message": "Forbidden"
+      * }
       * @apiError (Error 404) ProductNotFound product not found.
       * @apiErrorExample {json} Error-Response:
-      *   {
-      *    "status": false,
-      *    "statusCode": 404,
-      *    "message": "Product not found"
-      *    }
+      * {
+      *  "status": false,
+      *  "statusCode": 404,
+      *  "message": "Product not found"
+      * }
       * @apiError (Error 500) Error getting product.
       * @apiErrorExample {json} Error-Response:
-      *   {
-      *      "status": false,
-      *      "statusCode": 500,
-      *      "message": "Error getting all products"
-      *    }
+      * {
+      *  "status": false,
+      *  "statusCode": 500,
+      *  "message": "Error getting product"
+      * }
     */
     .get('/products/:id', validateIdParams, authenticateToken, authorizeRole('admin'), ( req, res ) => getOneProduct( req, res ))
     
@@ -129,7 +155,7 @@ export default function productRouter(app) {
         *
         * @apiParam {number} lot_number lot number of product (required).
         * @apiParam {String} product_name name of product (required).
-        * @apiParam {float} price price of product (required).
+        * @apiParam {int} price price of product (required).
         * @apiParam {Number} available_quantity quantity of product (required).
         *
         * @apiSuccess {Boolean} status state of request.
@@ -137,47 +163,61 @@ export default function productRouter(app) {
         * @apiSuccess {String} message message descriptive.
         * @apiSuccess {Object} data data of product created.
         * @apiSuccessExample {json} Success-Response:
-        *    {
-        *       "status": true,
-        *       "statusCode": 201,
-        *       "message": "Created product",
-        *       "data": {
-        *         "date_entry": "2024-06-28T13:35:27.830Z",
-        *         "id": 3,
-        *         "lot_number": 676,
-        *         "product_name": "MANZANAS",
-        *         "price": 500,
-        *         "available_quantity": 10,
-        *         "updatedAt": "2024-06-28T13:35:27.831Z",
-        *         "createdAt": "2024-06-28T13:35:27.831Z"
-        *       }
-        *     }
+        * {
+        *   "status": true,
+        *   "statusCode": 201,
+        *   "message": "Created product",
+        *   "data": {
+        *    "date_entry": "2024-06-28T13:35:27.830Z",
+        *    "id": 3,
+        *    "lot_number": 676,
+        *    "product_name": "MANZANAS",
+        *    "price": 500,
+        *    "available_quantity": 10,
+        *    "updatedAt": "2024-06-28T13:35:27.831Z",
+        *    "createdAt": "2024-06-28T13:35:27.831Z"
+        *   }
+        * }
         *
-        * @apiError (Error 400) InvalidData data invalidate.
+        * @apiError (Error 400) Bad Request.
         * @apiErrorExample {json} Error-Response:
-        *    {
-        *        "status": false,
-        *        "statusCode": 400,
-        *        "message": "Invalid data",
-        *        "error": [
-        *          {
-        *            "code": "invalid_type",
-        *            "expected": "number",
-        *            "received": "undefined",
-        *            "path": [
-        *              "available_quantity"
-        *            ],
-        *            "message": "Required"
-        *          }
-        *        ]
-        *      }
+        * {
+        *   "status": false,
+        *   "statusCode": 400,
+        *   "message": "Invalid data",
+        *   "error": [
+        *     {
+        *       "code": "invalid_type",
+        *       "expected": "number",
+        *       "received": "undefined",
+        *       "path": [
+        *         "available_quantity"
+        *       ],
+        *       "message": "Required"
+        *     }
+        *   ]
+        * }
+        * @apiError (Error 401) Unauthorized.
+        * @apiErrorExample {json} Error-Response:
+        * {
+        *  "status": false,
+        *  "statusCode": 401,
+        *  "message": "Unauthorized"
+        * }
+        * @apiError (Error 403) Forbidden.
+        * @apiErrorExample {json} Error-Response:
+        * {
+        *  "status": false,
+        *  "statusCode": 403,
+        *  "message": "Forbidden"
+        * }
         * @apiError (Error 500) InternalServerError Error creating product.
         * @apiErrorExample {json} Error-Response:
-        *    {
-        *       "status": false,
-        *       "statusCode": 500,
-        *       "message": "Error creating product"
-        *    }
+        * {
+        *  "status": false,
+        *  "statusCode": 500,
+        *  "message": "Error creating product"
+        * }
     */
 
     .post('/products', authenticateToken, authorizeRole('admin'), ( req, res ) => createOneProduct( req, res ))
@@ -202,38 +242,52 @@ export default function productRouter(app) {
        * @apiSuccess {String} message message descriptive.
        * @apiSuccess {Object} data data of product updated.
        *
-       * @apiError (Error 400) InvalidData data invalidate.
+       * @apiError (Error 400) Bad Request.
        * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 400,
+       *  "message": "Invalid data",
+       *  "error": [
        *    {
-       *       "status": false,
-       *       "statusCode": 400,
-       *       "message": "Invalid data",
-       *       "error": [
-       *         {
-       *           "code": "invalid_type",
-       *           "expected": "number",
-       *           "received": "undefined",
-       *           "path": [
-       *             "available_quantity"
-       *           ],
-       *           "message": "Required"
-       *         }
-       *       ]
-       *     }
+       *     "code": "invalid_type",
+       *     "expected": "number",
+       *     "received": "undefined",
+       *     "path": [
+       *       "available_quantity"
+       *     ],
+       *     "message": "Required"
+       *    }
+       *  ]
+       * }
+       * @apiError (Error 401) Unauthorized.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 401,
+       *  "message": "Unauthorized"
+       * }
+       * @apiError (Error 403) Forbidden.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 403,
+       *  "message": "Forbidden"
+       * }
        * @apiError (Error 404) ProductNotFound product not found.
        * @apiErrorExample {json} Error-Response:
-       *   {
-       *     "status": false,
-       *     "statusCode": 404,
-       *     "message": "Product not found"
-       *   }
+       * {
+       *  "status": false,
+       *  "statusCode": 404,
+       *  "message": "Product not found"
+       * }
        * @apiError (Error 500) InternalServerError error updating product.
        * @apiErrorExample {json} Error-Response:
-       *    {
-       *      "status": false,
-       *      "statusCode": 500,
-       *      "message": "Error updating product"
-       *    }
+       * {
+       *  "status": false,
+       *  "statusCode": 500,
+       *  "message": "Error updating product"
+       * }
       */
 
     .put('/products/:id', validateIdParams, authenticateToken, authorizeRole('admin'), ( req, res ) => updateOneProduct( req, res )) 
@@ -253,26 +307,39 @@ export default function productRouter(app) {
        * @apiSuccess {Number} statusCode code of status HTTP.
        * @apiSuccess {String} message message descriptive.
        * @apiSuccessExample {json} Success-Response:
-       *   {
-       *      "status": true,
-       *      "statusCode": 202,
-       *      "message": "Product deleted"
-       *   }
-       *
+       * {
+       *  "status": true,
+       *  "statusCode": 202,
+       *  "message": "Product deleted"
+       * }
+       * @apiError (Error 401) Unauthorized.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 401,
+       *  "message": "Unauthorized"
+       * }
+       * @apiError (Error 403) Forbidden.
+       * @apiErrorExample {json} Error-Response:
+       * {
+       *  "status": false,
+       *  "statusCode": 403,
+       *  "message": "Forbidden"
+       * }
        * @apiError (Error 404) ProductNotFound product not found.
        * @apiErrorExample {json} Error-Response:
-       *  {
-       *     "status": false,
-       *     "statusCode": 404,
-       *     "message": "Product not found"
-       *   }
+       * {
+       *  "status": false,
+       *  "statusCode": 404,
+       *  "message": "Product not found"
+       * }
        * @apiError (Error 500) InternalServerError error deleting product.
        * @apiErrorExample {json} Error-Response:
-       *  {
-       *     "status": false,
-       *     "statusCode": 500,
-       *     "message": "Error updating product"
-       *   }
+       * {
+       *  "status": false,
+       *  "statusCode": 500,
+       *  "message": "Error deleting product"
+       * }
       */
 
     .delete('/products/:id', validateIdParams, authenticateToken, authorizeRole('admin'), ( req, res ) => deleteOneProduct( req, res ));  

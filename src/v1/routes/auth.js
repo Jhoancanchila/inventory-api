@@ -40,7 +40,7 @@ export default function auth( app ) {
      *     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImNsaWVudCIsImlhdCI6MTcxOTU4NjU0OCwiZXhwIjoxNzE5NTkwMTQ4fQ.1wqpxt-Lv6iIzBq98gv-KBhqiTRN8zmjqo7uew6m4rI"
      *   }
      *
-     * @apiError (400) InvalidCredentials The provided credentials are invalid.
+     * @apiError (400) Bad request.
      * @apiErrorExample {json} Error-Response:
      *  {
      *     "status": false,
@@ -89,7 +89,7 @@ export default function auth( app ) {
      *    "message": "User created successfully"
      *  }
      *
-     * @apiError (400) InvalidData The data provided is invalid.
+     * @apiError (400) Bad Request.
      * @apiErrorExample {json} Error-Response:
      *  {
      *    "status": false,
@@ -107,7 +107,7 @@ export default function auth( app ) {
      *     ]
      *  }
      *
-     * @apiError (400) UserAlreadyExisted The user already exists.
+     * @apiError (400) Bad Request.
      * @apiErrorExample {json} Error-Response:
      *  {
      *    "status": false,

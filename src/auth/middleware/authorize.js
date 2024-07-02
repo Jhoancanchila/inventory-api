@@ -5,7 +5,7 @@ export const authorizeRole = (role) => {
       return res.status(403).json({
         status: false,
         statusCode: 403,
-        message: "Access denied: You do not have the appropriate role."
+        message: "Forbidden: Access denied: You do not have the appropriate role."
       });
     }
     next();
