@@ -1,0 +1,79 @@
+###REGISTER USER
+POST  http://localhost:8080/api/v1/register
+content-type: application/json
+
+{
+"name": "Pablo",
+"email": "pablo@gmail.com",
+"password": "123456",
+"role": "client"
+}
+
+###LOGIN USER
+POST  http://localhost:8080/api/v1/login
+content-type: application/json
+
+{
+"email": "carlos@gmail.com",
+"password": "123456"
+}
+
+### GET ALL PRODUCTS
+GET http://localhost:8080/api/v1/products
+Authorization: Bearer
+
+### GET ONE PRODUCT
+GET http://localhost:8080/api/v1/products/2
+Authorization: Bearer 
+
+###CREATE PRODUCT
+POST  http://localhost:8080/api/v1/products
+content-type: application/json
+Authorization: Bearer 
+
+{
+"lot_number": 66666,
+"product_name": "PERAS",
+"price": 100,
+"available_quantity": 10
+}
+
+###UPDATE PRODUCT
+PUT  http://localhost:8080/api/v1/products/2
+content-type: application/json
+Authorization: Bearer 
+
+{
+"lot_number": 676,
+"product_name": "MANZANAS",
+"price": 500,
+"available_quantity": 10
+}
+###DELETE PRODUCT
+DELETE  http://localhost:8080/api/v1/products/2
+Authorization: Bearer 
+
+###GET PURCHASES (ADMIN)
+GET  http://localhost:8080/api/v1/purchases
+Authorization: Bearer 
+
+###GET PURCHASE BY CLIENTID (CLIENT)
+GET  http://localhost:8080/api/v1/purchases/client/7a48ef5a-c384-46a6-8229-5609bedbbfa6
+Authorization: Bearer
+
+###GET PURCHASE BY ID (CLIENT)
+GET  http://localhost:8080/api/v1/purchases/4d7c60b6-39d1-49ee-8d5a-e705cee1320f
+Authorization: Bearer
+
+###CREATE PURCHASE (CLIENT)
+POST  http://localhost:8080/api/v1/purchases
+content-type: application/json
+Authorization: Bearer
+
+{
+  "clientId": "a37833b6-fcb4-4b27-989b-9629dbb4ca33",
+  "products": [
+      { "productId": "7ab9f9c1-855b-4b32-b109-a4c3d7ab5fa7", "quantity": 2 },
+      { "productId": "c117a006-c31a-49e4-b111-d23d21cea9b7", "quantity": 2 }
+  ]
+}

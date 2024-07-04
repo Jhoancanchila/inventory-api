@@ -11,6 +11,12 @@ export const getAllPurchases = async( req, res ) => {
     if(!purchases) return res.status(500).json({ 
       status: false,
       statusCode: 500,
+      message: 'Error getting purchases'
+    });
+
+    if(purchases.length === 0) return res.status(404).json({ 
+      status: false,
+      statusCode: 404,
       message: 'Purchases not found'
     });
 
@@ -72,7 +78,13 @@ export const getPurchasesByClient = async( req, res ) => {
     }
     const purchases = await getPurchases( clientId );
 
-    if(!purchases) return res.status(404).json({ 
+    if(!purchases) return res.status(500).json({ 
+      status: false,
+      statusCode: 500,
+      message: 'Error getting purchases'
+    });
+
+    if(purchases.length === 0) return res.status(404).json({ 
       status: false,
       statusCode: 404,
       message: 'Purchases not found'
