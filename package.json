@@ -10,7 +10,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "API documentation for inventory management system",
+  "apidoc": {
+    "title": "Inventory API Documentation",
+    "url": "http://localhost:8080/api/v1"
+  },
   "devDependencies": {
     "nodemon": "^3.1.4"
   },
